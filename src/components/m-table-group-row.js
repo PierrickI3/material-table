@@ -1,19 +1,18 @@
 /* eslint-disable no-unused-vars */
-import TableCell from "@material-ui/core/TableCell";
-import TableRow from "@material-ui/core/TableRow";
-import IconButton from "@material-ui/core/IconButton";
-import PropTypes from "prop-types";
-import * as React from "react";
+import TableCell from '@material-ui/core/TableCell';
+import TableRow from '@material-ui/core/TableRow';
+import IconButton from '@material-ui/core/IconButton';
+import PropTypes from 'prop-types';
+import * as React from 'react';
 /* eslint-enable no-unused-vars */
 
 export default class MTableGroupRow extends React.Component {
   rotateIconStyle = (isOpen) => ({
-    transform: isOpen ? "rotate(90deg)" : "none",
+    transform: isOpen ? 'rotate(90deg)' : 'none',
   });
 
   render() {
-    let colSpan = this.props.columns.filter((columnDef) => !columnDef.hidden)
-      .length;
+    let colSpan = this.props.columns.filter((columnDef) => !columnDef.hidden).length;
     this.props.options.selection && colSpan++;
     this.props.detailPanel && colSpan++;
     this.props.actions && this.props.actions.length > 0 && colSpan++;
@@ -26,7 +25,7 @@ export default class MTableGroupRow extends React.Component {
         detail = this.props.groupData.groups.map((groupData, index) => (
           <this.props.components.GroupRow
             actions={this.props.actions}
-            key={groupData.value || "" + index}
+            key={groupData.value || '' + index}
             columns={this.props.columns}
             components={this.props.components}
             detailPanel={this.props.detailPanel}
@@ -118,28 +117,22 @@ export default class MTableGroupRow extends React.Component {
     }
 
     let title = column.title;
-    if (typeof this.props.options.groupTitle === "function") {
+    if (typeof this.props.options.groupTitle === 'function') {
       title = this.props.options.groupTitle(this.props.groupData);
-    } else if (typeof title !== "string") {
+    } else if (typeof title !== 'string') {
       title = React.cloneElement(title);
     }
 
-    let separator = this.props.options.groupRowSeparator || ": ";
+    let separator = this.props.options.groupRowSeparator || ': ';
 
     return (
       <>
         <TableRow>
           {freeCells}
-          <this.props.components.Cell
-            colSpan={colSpan}
-            padding="none"
-            columnDef={column}
-            value={value}
-            icons={this.props.icons}
-          >
+          <this.props.components.Cell colSpan={colSpan} padding="none" columnDef={column} value={value} groupData={this.props.groupData.data} icons={this.props.icons}>
             <IconButton
               style={{
-                transition: "all ease 200ms",
+                transition: 'all ease 200ms',
                 ...this.rotateIconStyle(this.props.groupData.isExpanded),
               }}
               onClick={(event) => {
@@ -171,10 +164,7 @@ MTableGroupRow.propTypes = {
   actions: PropTypes.array,
   columns: PropTypes.arrayOf(PropTypes.object),
   components: PropTypes.object,
-  detailPanel: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.arrayOf(PropTypes.object),
-  ]),
+  detailPanel: PropTypes.oneOfType([PropTypes.func, PropTypes.arrayOf(PropTypes.object)]),
   getFieldValue: PropTypes.func,
   groupData: PropTypes.object,
   groups: PropTypes.arrayOf(PropTypes.object),
